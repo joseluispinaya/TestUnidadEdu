@@ -18,8 +18,8 @@ namespace Capa.Backend.Controllers
         {
             var result = await _preguntasRepository.GetRandomAsync();
 
-            if (!result.WasSuccess)
-                return NotFound(result);
+            //if (!result.WasSuccess)
+            //    return NotFound(result);
 
             return Ok(result);
         }
@@ -29,8 +29,8 @@ namespace Capa.Backend.Controllers
         {
             var result = await _preguntasRepository.GetEstudiante(nroCi);
 
-            if (!result.WasSuccess)
-                return NotFound(result);
+            //if (!result.WasSuccess)
+            //    return NotFound(result);
 
             return Ok(result);
         }
@@ -40,8 +40,8 @@ namespace Capa.Backend.Controllers
         {
             var result = await _preguntasRepository.GetReporteVocacionalAsync();
 
-            if (!result.WasSuccess)
-                return NotFound(result);
+            //if (!result.WasSuccess)
+            //    return NotFound(result);
 
             return Ok(result);
         }

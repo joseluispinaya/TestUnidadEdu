@@ -17,11 +17,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnection"));
 builder.Services.AddTransient<SeedDb>();
+builder.Services.AddScoped<IFileStorage, FileStorage>();
 
 builder.Services.AddHttpClient<IIARecommendationService, IARecommendationService>();
 
 builder.Services.AddScoped<IRespuestasRepository, RespuestasRepository>();
 builder.Services.AddScoped<IPreguntasRepository, PreguntasRepository>();
+builder.Services.AddScoped<IEstudiantesRepository, EstudiantesRepository>();
+//builder.Services.AddScoped<IEstudiantesRepository, EstudiantesRepository>();
 
 var app = builder.Build();
 

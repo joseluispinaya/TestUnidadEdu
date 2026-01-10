@@ -6,5 +6,6 @@
         public string NombreCompleto { get; set; } = null!;
         public string Correo { get; set; } = null!;
         public string? UnidadEducativa { get; set; }
+        public string? Photo { get; set; }
     }
 }

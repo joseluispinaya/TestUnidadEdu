@@ -1,4 +1,5 @@
-﻿using Capa.Shared.Entities;
+﻿using Capa.Backend.Helpers;
+using Capa.Shared.Entities;
 
 namespace Capa.Backend.Data
 {
@@ -6,10 +7,14 @@ namespace Capa.Backend.Data
     {
 
         private readonly DataContext _context;
+        private readonly IFileStorage _fileStorage;
+        private readonly IWebHostEnvironment _env;
 
-        public SeedDb(DataContext context)
+        public SeedDb(DataContext context, IFileStorage fileStorage, IWebHostEnvironment env)
         {
             _context = context;
+            _fileStorage = fileStorage;
+            _env = env;
         }
 
         public async Task SeedAsync()
@@ -43,14 +48,8 @@ namespace Capa.Backend.Data
         {
             if (_context.Estudiantes.Any()) return;
 
-            AddEstudianteAsync("65652544", "Angelica", "Colque Lazo", "angelicac@yopmail.com", "Walter Alpire");
-            AddEstudianteAsync("11255712", "Mauro", "Diaz Pilco", "naurod@yopmail.com", "Eduardo Avaroa");
-            AddEstudianteAsync("45888544", "Felipe", "Montes Paz", "felipem@yopmail.com", "ELIM II");
-            AddEstudianteAsync("20125485", "Pablo", "Quette Lara", "pablol@yopmail.com", "ELIM II");
-            AddEstudianteAsync("10111213", "Jorge", "Mamanta Duri", "jorged@yopmail.com", "ELIM II");
-            AddEstudianteAsync("20212223", "Mariela", "Daza Surita", "marielad@yopmail.com", "Juana Surduy");
-            AddEstudianteAsync("22745225", "Milton", "Yujra Pally", "milton@yopmail.com", "Riberalta");
-            AddEstudianteAsync("21874588", "Dario", "Miranda Lino", "dario@yopmail.com", "Maranarha");
+            await AddEstudianteAsync("65652544", "Carlos", "Colque Lazo", "carlosc@yopmail.com", "Walter Alpire", "carlos.jpg");
+            await AddEstudianteAsync("11255712", "Mauro", "Diaz Pilco", "naurod@yopmail.com", "Eduardo Avaroa", "mauro.jpg");
 
             await _context.SaveChangesAsync();
         }
@@ -129,9 +128,26 @@ namespace Capa.Backend.Data
         }
 
 
-        private void AddEstudianteAsync(string nroCi, string nombres, string apellidos, string correo, string unidadEducativa)
+        private async Task AddEstudianteAsync(string nroCi, string nombres, string apellidos, string correo, string unidadEducativa, string image)
         {
-            _context.Estudiantes.Add(new Estudiante { NroCi = nroCi, Nombres = nombres, Apellidos = apellidos, Correo = correo, UnidadEducativa = unidadEducativa });
+            string? photoPath = null;
+            var filePath = Path.Combine(_env.ContentRootPath, "Images", "users", image);
+
+            if (File.Exists(filePath))
+            {
+                var fileBytes = await File.ReadAllBytesAsync(filePath);
+                photoPath = await _fileStorage.SaveFileAsync(fileBytes, ".jpg", "estudiante");
+            }
+
+            _context.Estudiantes.Add(new Estudiante
+            {
+                NroCi = nroCi,
+                Nombres = nombres,
+                Apellidos = apellidos,
+                Correo = correo,
+                UnidadEducativa = unidadEducativa,
+                Photo = photoPath
+            });
         }
 
     }

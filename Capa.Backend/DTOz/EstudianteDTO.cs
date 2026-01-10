@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Capa.Shared.Entities
+namespace Capa.Backend.DTOz
 {
-    public class Estudiante
+    public class EstudianteDTO
     {
         public int Id { get; set; }
 
@@ -26,8 +26,7 @@ namespace Capa.Shared.Entities
         [MaxLength(100, ErrorMessage = "El campo Unidad Educativa debe tener máximo 100 caracteres.")]
         [Required(ErrorMessage = "El campo Unidad Educativa es obligatorio.")]
         public string UnidadEducativa { get; set; } = null!;
-        public string? Photo { get; set; }
 
-        public ICollection<IntentoTest> IntentosTest { get; set; } = [];
+        public IFormFile? PhotoFile { get; set; }
     }
 }

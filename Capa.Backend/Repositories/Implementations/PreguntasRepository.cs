@@ -25,7 +25,8 @@ namespace Capa.Backend.Repositories.Implementations
                     Id = e.Id,
                     NombreCompleto = e.Nombres + " " + e.Apellidos,
                     Correo = e.Correo,
-                    UnidadEducativa = e.UnidadEducativa
+                    UnidadEducativa = e.UnidadEducativa,
+                    Photo = e.Photo
                 })
                 .FirstOrDefaultAsync();
 
