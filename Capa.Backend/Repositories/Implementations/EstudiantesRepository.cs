@@ -82,7 +82,7 @@ namespace Capa.Backend.Repositories.Implementations
                 Result = detalle
             };
         }
-
+        // solo pruebas
         public async Task<ActionResponse<IReadOnlyList<HistorialTestDTO>>> GetHistorialPorEstudianteAsync(int estudianteId)
         {
             var historial = await _context.IntentosTest
